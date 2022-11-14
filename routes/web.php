@@ -19,6 +19,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home')->name('home');
 Route::get('/product/{product}', [ProductController::class, 'show'])->name('product');
 
-
+//Admin routes
+//index
 Route::get('/admin/products', [AdminProductsController::class, 'index'])->name('admin.products.index');
-Route::get('/admin/products/edit', [AdminProductsController::class, 'edit'])->name('admin.products.edit');
+//create
+Route::get('/admin/products/create', [AdminProductsController::class, 'create'])->name('admin.products.create');
+Route::post('/admin/products', [AdminProductsController::class, 'store'])->name('admin.products.store');
+//edit
+Route::get('/admin/products/{product}/edit', [AdminProductsController::class, 'edit'])->name('admin.products.edit');
+Route::put('/admin/products/{product}', [AdminProductsController::class, 'update'])->name('admin.products.update');
+//delete
+Route::delete('/admin/products/{product}', [AdminProductsController::class, 'destroy'])->name('admin.products.destroy');
+
