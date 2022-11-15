@@ -26,9 +26,24 @@ class AdminProductsController extends Controller
     //recebe a requisição de editar
     public function update(Request $request, Product $product)
     {
-        $product->update($request->all());
+        $input = $request->validate([
+            'name' => 'required|min:3',
+            'price' => 'required|numeric',
+            'description' => 'required|min:10',
+            'stock' => 'required|numeric',
+            'cover' => 'nullable|file|image',
+        ]);
+        $product->fill($input);
+        if ($request->hasFile('cover') && $request->file('cover')->isValid()) {
+            $product->cover = $request->file('cover')->store('covers');
+        }
+        $product->save();
         return redirect()->route('admin.products.index');
+
     }
+
+
+
 
     //mostra a página de criar
     public function create()
