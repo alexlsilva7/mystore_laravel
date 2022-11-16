@@ -35,6 +35,14 @@
                                 <input type="file" id="cover" name="cover" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                             </div>
                         </div>
+                        @if($product->cover)
+                            <div class="p-2 w-full rounded">
+                                <div class="relative">
+                                    <img src="{{ Storage::url($product->cover) }}" alt="{{ $product->name }}">
+                                </div>
+                                <a href="{{ route('admin.products.image.delete', $product->id) }}" class="text-red-500">Remover imagem</a>
+                            </div>
+                        @endif
                         <div class="p-2 w-full">
                             <div class="relative">
                                 <label for="description" class="leading-7 text-sm text-gray-600">Descrição</label>

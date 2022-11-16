@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
 class AdminProductsController extends Controller
 {
@@ -33,10 +35,15 @@ class AdminProductsController extends Controller
             'stock' => 'required|numeric',
             'cover' => 'nullable|file|image',
         ]);
-        $product->fill($input);
+
         if ($request->hasFile('cover') && $request->file('cover')->isValid()) {
-            $product->cover = $request->file('cover')->store('covers');
+            //delete old image
+            if ($product->cover) {
+                Storage::delete($product->cover);
+            }
+            $input['cover'] = $request->file('cover')->store('covers');
         }
+        $product->fill($input);
         $product->save();
         return redirect()->route('admin.products.index');
 
@@ -63,7 +70,9 @@ class AdminProductsController extends Controller
         ]);
         //save cover
         if ($request->hasFile('cover') && $request->file('cover')->isValid()) {
+
             $input['cover'] = $request->file('cover')->store('covers');
+
         }
         //save product
         Product::create($input);
@@ -73,8 +82,20 @@ class AdminProductsController extends Controller
     //recebe a requisição de deletar
     public function destroy(Product $product)
     {
+        //delete image from storage
+        Storage::delete($product->cover??'');
         $product->delete();
         return redirect()->route('admin.products.index');
+    }
+
+    //delete image
+    public function deleteImage(Product $product)
+    {
+        //delete image from storage
+        Storage::delete($product->cover??'');
+        $product->cover = null;
+        $product->save();
+        return Redirect::back();
     }
 
 }
