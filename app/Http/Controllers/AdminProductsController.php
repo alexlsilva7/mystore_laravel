@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductStoreRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -26,15 +27,9 @@ class AdminProductsController extends Controller
     }
 
     //recebe a requisição de editar
-    public function update(Request $request, Product $product)
+    public function update(ProductStoreRequest $request, Product $product)
     {
-        $input = $request->validate([
-            'name' => 'required|min:3',
-            'price' => 'required|numeric',
-            'description' => 'required|min:10',
-            'stock' => 'required|numeric',
-            'cover' => 'nullable|file|image',
-        ]);
+        $input = $request->validated();
 
         if ($request->hasFile('cover') && $request->file('cover')->isValid()) {
             //delete old image
@@ -59,15 +54,9 @@ class AdminProductsController extends Controller
     }
 
     //recebe a requisição de criar
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
-        $input = $request->validate([
-            'name' => 'required|min:3',
-            'price' => 'required|numeric',
-            'description' => 'required|min:10',
-            'stock' => 'required|numeric',
-            'cover' => 'required|file|image',
-        ]);
+        $input = $request->validated();
         //save cover
         if ($request->hasFile('cover') && $request->file('cover')->isValid()) {
 
