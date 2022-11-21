@@ -18,14 +18,14 @@
         </div>
 
     <section class="text-gray-600 body-font">
-        <div class="container px-5 py-24 mx-auto">
+        <div class="container px-5 py-8 mx-auto">
             <div class="flex flex-wrap -m-4">
                 @foreach($products as $product)
                     <div class="lg:w-1/4 md:w-1/2 p-4 w-full">
-                        <a class="block relative h-48 rounded overflow-hidden">
-                            <img alt="ecommerce" class="object-cover object-center w-full h-full block"
-                                 src="{{$product->cover}}}">
-                        </a>
+
+                        <img alt="{{ $product->name }}" class="h-56 rounded w-full object-cover object-center mb-6"
+                             src="{{ Storage::url($product->cover) }}">
+
                         <div class="mt-4">
 
                             <h2 class="text-gray-900 title-font text-lg font-medium">{{ $product->name }}</h2>
