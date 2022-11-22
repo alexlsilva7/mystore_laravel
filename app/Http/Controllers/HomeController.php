@@ -7,11 +7,17 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
+        $search = $request->search;
+        $products = Product::query();
+        $products->when($search, function ($query, $search) {
+            return $query->where('name', 'like', "%".$search."%");
+        });
+        $queryResult = $products->get();
+        //$products = $products->paginate(10);
         return view('home', [
-            'products' => $products],
-        );
+            'products' => $queryResult,
+        ]);
     }
 }
