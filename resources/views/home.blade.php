@@ -21,9 +21,9 @@
         <div class="container px-5 py-8 mx-auto">
             <div class="flex flex-wrap -m-4">
                 @foreach($products as $product)
-                    <div class="lg:w-1/4 md:w-1/2 p-4 w-full">
+                    <div class=" lg:w-1/4 md:w-1/2 p-4 w-full">
 
-                        <img alt="{{ $product->name }}" class="h-56 rounded w-full object-cover object-center mb-6"
+                        <img alt="{{ $product->name }}" class="h-56 rounded w-full object-contain object-center mb-6"
                              src="{{ Storage::url($product->cover) }}">
 
                         <div class="mt-4">
